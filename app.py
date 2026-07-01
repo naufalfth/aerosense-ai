@@ -102,8 +102,9 @@ if prompt := st.chat_input("Tanya soal kualitas udara..."):
         st.markdown(prompt)
         
     with st.chat_message("assistant"):
-        with st.spinner("Menganalisis data..."):
+        with st.spinner("Menganalisis data dari Database, Internet & Visual..."):
             try:
+                # Cek apakah ada file foto yang di-upload dari Sidebar
                 if 'uploaded_file' in locals() and uploaded_file is not None:
                     img_bytes = uploaded_file.getvalue()
                     mime_type = uploaded_file.type
@@ -115,9 +116,5 @@ if prompt := st.chat_input("Tanya soal kualitas udara..."):
                 st.session_state.messages.append({"role": "assistant", "content": answer})
                 
             except Exception as e:
-                import traceback
-                error_trace = traceback.format_exc()
-                st.error(f"Error Asli: {str(e)}")
-                with st.expander("Detail Teknis (Traceback)"):
-                    st.code(error_trace)
-                answer = "Maaf, terjadi kesalahan teknis."
+                st.error("⚠️ Sistem sedang sibuk atau API mencapai batas kuota (Rate Limit). Mohon tunggu beberapa detik dan coba lagi.")
+                st.toast("Gagal memproses permintaan.", icon="🚨")
