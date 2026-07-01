@@ -85,7 +85,7 @@ ATURAN WAJIB:
 
 root_agent = Agent(
     name="aerosense_assistant",
-    model="gemini-2.5-flash",
+    model="gemini-1.5-flash",
     description="Asisten AeroSense AI",
     instruction=INSTRUCTION,
     tools=[query_air_quality, search_internet_for_news], 
