@@ -4,7 +4,8 @@ import streamlit as st
 
 st.set_page_config(page_title="AeroSense AI", page_icon="🌬️", layout="centered")
 
-# ---- Setup kredensial: jalan di LOKAL (.env + gcloud) & CLOUD (st.secrets) ----
+# ---- Setup kredensial: CUKUP GOOGLE_API_KEY SAJA ----
+# Karena kita pakai SQLite, kita tidak butuh BigQuery Credentials lagi.
 def _secret(key, default=None):
     try:
         return st.secrets[key]
@@ -12,16 +13,11 @@ def _secret(key, default=None):
         return default
 
 _api_key = _secret("GOOGLE_API_KEY")
-if _api_key:  # mode CLOUD
+
+if _api_key:  # Jika jalan di Streamlit Cloud
     os.environ["GOOGLE_API_KEY"] = _api_key
     os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "FALSE"
-    os.environ["GOOGLE_CLOUD_PROJECT"] = _secret("GOOGLE_CLOUD_PROJECT", "aerosense-ai-501007")
-    _adc = _secret("ADC_JSON")
-    if _adc:
-        with open("adc.json", "w") as f:
-            f.write(_adc)
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath("adc.json")
-else:  # mode LOKAL
+else:  # Jika jalan di Lokal
     from dotenv import load_dotenv
     load_dotenv(os.path.join("aerosense", ".env"))
 
