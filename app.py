@@ -116,13 +116,15 @@ if prompt := st.chat_input("Tanya soal kualitas udara..."):
                 st.markdown(answer)
                 st.session_state.messages.append({"role": "assistant", "content": answer})
                 
-            except Exception as e:
-                # ERROR HANDLING ELEGAN
-                error_msg = f"Telah terjadi kendala teknis saat memproses permintaan Anda. (Kode: {str(e)[:50]}...)"
-                st.error("⚠️ Sistem sedang sibuk atau koneksi terputus. Mohon coba beberapa saat lagi.")
+                except Exception as e:
+                # TAMPILKAN ERROR ASLI UNTUK DEBUGGING
+                import traceback
+                error_trace = traceback.format_exc()
+                st.error(f"Error Asli: {str(e)}")
+                with st.expander("Detail Teknis (Traceback)"):
+                    st.code(error_trace)
                 
-                # Opsi: Munculkan toast (notifikasi popup di pojok)
-                st.toast("Gagal menghubungi agen. Cek koneksi Anda.", icon="🚨")
+                answer = "Maaf, terjadi kesalahan teknis."
                 
                 # Jangan simpan error yang panjang ke dalam memori chat history,
                 # agar sesi chat tidak rusak jika user ingin bertanya lagi.
