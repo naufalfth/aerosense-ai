@@ -115,6 +115,9 @@ if prompt := st.chat_input("Tanya soal kualitas udara..."):
                 st.markdown(answer)
                 st.session_state.messages.append({"role": "assistant", "content": answer})
                 
-            except Exception as e:
-                st.error("⚠️ Sistem sedang sibuk atau API mencapai batas kuota (Rate Limit). Mohon tunggu beberapa detik dan coba lagi.")
-                st.toast("Gagal memproses permintaan.", icon="🚨")
+                except Exception as e:
+                    import traceback
+                    st.error(f"Error Asli: {str(e)}") # Ini akan memunculkan error sejujurnya dari Google
+                    with st.expander("Detail Teknis (Traceback)"):
+                        st.code(traceback.format_exc())
+                    st.session_state.messages.append({"role": "assistant", "content": "Error teknis."})
