@@ -116,8 +116,6 @@ if prompt := st.chat_input("Tanya soal kualitas udara..."):
                 st.session_state.messages.append({"role": "assistant", "content": answer})
                 
             except Exception as e:
-                    import traceback
-                    st.error(f"Error Asli: {str(e)}") # Ini akan memunculkan error sejujurnya dari Google
-                    with st.expander("Detail Teknis (Traceback)"):
-                        st.code(traceback.format_exc())
-                    st.session_state.messages.append({"role": "assistant", "content": "Error teknis."})
+                # Mode Profesional
+                st.error("⚠️ Sistem sedang sibuk. Mohon tunggu beberapa detik dan coba lagi.")
+                st.toast("Gagal memproses permintaan.", icon="🚨")
